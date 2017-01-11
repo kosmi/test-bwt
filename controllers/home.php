@@ -16,5 +16,7 @@ Class Home extends Controller {
         
         $this->get_view('page', $main_data);
     }
+    
+    
 }
 
