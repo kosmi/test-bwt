@@ -2,15 +2,16 @@
 
 class Core {
     
+    public static $config;
+    
     static function init() {
         
-        $config = new Config();
+        self::$config = new Config();
         
         $urls = explode('/', $_SERVER['REQUEST_URI']);
-//        var_dump($urls);
                 
         if(empty($urls[1])) {
-            $contr = $config->get('home_controller');
+            $contr = self::$config->get('home_controller');
         } else {
             $contr = $urls[1];
         }
@@ -82,6 +83,10 @@ class Config {
         require_once 'config/config.php';
         
         $this->config = $config;
+        
+//        var_dump($this->config);
+//        echo '<br>';
+        
     }
     
     public function get($name) {
@@ -91,4 +96,27 @@ class Config {
     public function set($name, $value) {
         $this->config[$name] = $value;
     }
+}
+
+class DBTool  {  // класс для работы с базой данных
+
+	static function connect() { // подключение к БД MySQL строка подключения
+            
+            $dsn = 'mysql:host='.Core::$config->get('db_host').';dbname='.Core::$config->get('db_name').'; charset=utf8;';
+            $options = array(
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // если произойдет ошибка сразу прерывать работу
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'set names utf8'
+            );
+            
+            try {
+                $pdo = new PDO($dsn,Core::$config->get('db_user'), Core::$config->get('db_password'), $options);
+                return $pdo;
+            } catch (Exception $ex) {
+                echo "<code>DB Error: $ex</code>";
+                return false;
+            }
+            
+	}	
+
 }
