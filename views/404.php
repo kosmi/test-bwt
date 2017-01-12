@@ -1,4 +1,4 @@
 <?php
 
-echo 'Page Not Found!';
+echo 'My 404: Page Not Found!';
 

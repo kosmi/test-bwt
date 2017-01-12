@@ -31,7 +31,7 @@ class Core {
         $file = "controllers/$name.php";
 
         if(!file_exists($file)) {
-            include "views/404.php";
+            Controller::show_404();
             die();
         }
         
@@ -41,7 +41,7 @@ class Core {
         if(method_exists($controller, $action)) {
             $controller->$action($args);
         } else {
-            include "views/404.php";
+            $controller->show_404();
             die();
         }
         
@@ -58,7 +58,8 @@ class Controller {
         $file = "views/$name.php";
         
         if(!file_exists($file)) {
-            $file = "views/404.php";
+            $this->show_404();
+            die();
         }
         
         $content = file_get_contents($file);
@@ -74,6 +75,16 @@ class Controller {
         
     }
     
+    public static function show_404() {
+        if(file_exists('views/404.php')) {
+            $file = "views/404.php";
+        } else {
+            $file = "core/404.php";
+        }
+        
+        include $file;
+    }
+    
 }
 
 class Config {
@@ -83,9 +94,6 @@ class Config {
         require_once 'config/config.php';
         
         $this->config = $config;
-        
-//        var_dump($this->config);
-//        echo '<br>';
         
     }
     
