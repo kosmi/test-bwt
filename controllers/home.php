@@ -4,8 +4,8 @@ Class Home extends Controller {
     
     public function index() {
         
-        $db = DBTool::connect();
-        var_dump($db);
+//        $db = DBTool::connect();
+//        var_dump($db);
         
         $content_data = array(
             'some_data' => 'HaHaHa!'

@@ -37,16 +37,16 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li>
-                                <a href="#">Register</a>
+                                <a href="/">Register</a>
                             </li>
                             <li>
-                                <a href="#">Weather</a>
+                                <a href="/weather">Weather</a>
                             </li>
                             <li>
-                                <a href="#">Your feedback</a>
+                                <a href="your_feedback">Your feedback</a>
                             </li>
                             <li>
-                                <a href="#">Reviews</a>
+                                <a href="feedbacks">Feedbacks</a>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">        
