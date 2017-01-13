@@ -20,6 +20,13 @@ Class Home extends Controller {
     }
     
     public function signup() {
+        
+        Core::load_model('user');
+        
+        $user = new User('alex', 'kos', 'alex@my', '123');
+        echo $user->add();
+        exit('test');
+        
         if(empty($_POST['adduser'])) {
             $this->show_404();
         } else {

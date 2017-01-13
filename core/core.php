@@ -46,6 +46,14 @@ class Core {
         }
         
     }
+    
+    static function load_model($name) {
+        if(!file_exists("models/$name.php")) {
+            exit('Load Model Error!');
+        }
+        
+        require_once "models/$name.php";
+    }
 }
 
 class Controller {
@@ -87,6 +95,10 @@ class Controller {
     
 }
 
+class Model {
+    
+}
+
 class Config {
     private $config = array();
     
@@ -107,24 +119,29 @@ class Config {
 }
 
 class DBTool  {  // класс для работы с базой данных
+    
+    private static $pdo = null;
 
-	static function connect() { // подключение к БД MySQL строка подключения
-            
+    static function connect() { // подключение к БД MySQL строка подключения
+        if(self::$pdo === null) {
             $dsn = 'mysql:host='.Core::$config->get('db_host').';dbname='.Core::$config->get('db_name').'; charset=utf8;';
             $options = array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // если произойдет ошибка сразу прерывать работу
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'set names utf8'
             );
-            
+
             try {
-                $pdo = new PDO($dsn,Core::$config->get('db_user'), Core::$config->get('db_password'), $options);
-                return $pdo;
+                self::$pdo = new PDO($dsn,Core::$config->get('db_user'), Core::$config->get('db_password'), $options);
+                return self::$pdo;
             } catch (Exception $ex) {
                 echo "<code>DB Error: $ex</code>";
                 return false;
             }
-            
-	}	
+        } else {
+            return self::$pdo;
+        }
+
+    }	
 
 }
